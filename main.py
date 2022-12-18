@@ -1,11 +1,21 @@
 from appJar import gui
 import webbrowser
 import time
+import pyautogui
 
-# handle button events
 def press(button):
     if button == "OpenWeb":
         app.open_web("http://www.google.com")
+    if button == "Run Sigma":
+        pyautogui.hotkey('win')
+        pyautogui.sleep(1)
+        pyautogui.typewrite('sigma simulation')
+        pyautogui.press('enter')
+    if button == "New Race LB":
+        pyautogui.hotkey('win')
+        pyautogui.sleep(1)
+        pyautogui.typewrite('https://192.168.1.12:6001/RemoteViewSettings')
+        pyautogui.press('enter')
 
 app = gui("RRM", "400x200")
 app.startTabbedFrame("MainMenu") 
@@ -19,6 +29,9 @@ def update_time():
 update_time() 
 
 app.startTab("ControlPannel")
+app.button("Run Sigma", press)
+app.button("New Race LB", press)
 app.stopTab()
+
 
 app.go()
