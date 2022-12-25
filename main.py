@@ -14,7 +14,6 @@ def press(button):
         pyautogui.typewrite('sigma simulation')
         pyautogui.press('enter')
     if button == "New Race LB":
-        pyautogui.hotkey('win')
         pyautogui.sleep(1)
         pyautogui.typewrite('https://192.168.1.12:6001/RemoteViewSettings')
         pyautogui.press('enter')
