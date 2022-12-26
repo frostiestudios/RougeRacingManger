@@ -1,0 +1,3 @@
+([('command',
+   '/Users/frostie/projects/RougeRacingManger/dist/command',
+   'EXECUTABLE')],)

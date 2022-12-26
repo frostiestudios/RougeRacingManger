@@ -1,0 +1,3 @@
+([('conquer',
+   '/Users/frostie/projects/RougeRacingManger/dist/conquer',
+   'EXECUTABLE')],)
