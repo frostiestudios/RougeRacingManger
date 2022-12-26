@@ -1,0 +1,25 @@
+[GEOM]
+    # geometry = string: size, location
+    # fullscreen = boolean: True/False
+    # minsize = string: x,y
+    # state = string: withdrawn/zoomed
+[TOOLBAR]
+    # pinned = boolean: True/False
+
+[TOGGLES]
+    # name = boolean: True/False
+[TABS]
+    # name = string: selected tab
+[PAGES]
+    # name = string: selected page
+
+[SUBWINDOWS]
+    # name = boolean: True/False
+[SUBWINDOW_NAME]
+    # geometry = string: size, location
+    # fullscreen = boolean: True/False
+    # minsize = string: x,y
+    # state = string: withdrawn/zoomed
+
+[EXTERNAL]
+    # name = string: value
