@@ -52,6 +52,10 @@ app.addButtons(['Connect', 'Save'], [connect, save])
 app.go()
 
 while True:
+    data = sock.recv(1024)
+    message = data.decode()
+    # Display the message in a pop-up
+    app.infoBox("Pop-up Message", message)
     # Wait for a connection
     print('Waiting for a connection')
     connection, client_address = sock.accept()

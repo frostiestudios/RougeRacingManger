@@ -1,5 +1,7 @@
 import socket
 from appJar import gui
+import ctypes
+import os
 
 app = gui()
 
@@ -7,7 +9,7 @@ app = gui()
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Bind the socket to the port
-server_address = ('localhost', 10000)
+server_address = ('192.168.0.79', 10000)
 print('Starting up on {} port {}'.format(*server_address))
 sock.bind(server_address)
 
@@ -25,9 +27,24 @@ def sleep(btn):
 def shutdown(btn):
     # Shut down the computer
     pass
-
+def select_file(btn):
+    # Open a file dialog to select a file
+    file_path = app.openBox()
+    # Get the file name and size
+    file_name = os.path.basename(file_path)
+    file_size = os.path.getsize(file_path)
+    # Update the GUI with the file name and size
+    app.setLabel('File Name', file_name)
+    app.setLabel('File Size', str(file_size))
+    
 # Create the GUI
 app.addButtons(['Restart', 'Sleep', 'Shutdown'], [restart, sleep, shutdown])
+app.addLabel('Select a file to send:')
+app.addButton('Select File', select_file)
+app.addLabel('File Name:')
+app.addLabel('File Size:')
+app.addLabel('Connected Clients:')
+app.addLabel('IP Addresses:')
 app.go()
 
 while True:
@@ -50,9 +67,11 @@ while True:
                     sleep(None)
                 elif command == 'shutdown':
                     shutdown(None)
+                
             else:
                 print('No more data from', client_address)
                 break
+            
             
     finally:
         # Clean up the connection
