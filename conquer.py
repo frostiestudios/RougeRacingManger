@@ -1,78 +1,32 @@
 import socket
 from appJar import gui
 
+# Read the server address from the configuration file
+with open('config.txt') as config_file:
+    server_address = config_file.readline().strip()
+
+# Create a socket
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Connect to the server
+client_socket.connect((server_address, 8000))
+
+# Create a GUI app using appjar
 app = gui()
 
-# Create a TCP/IP socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Add a label to display messages from the server
+app.addLabel("Messages")
 
-# Function to handle the "Connect" button
-def connect(btn):
-    # Get the server IP and port from the GUI
-    server_ip = app.getEntry('Server IP')
-    server_port = app.getEntry('Server Port')
-    try:
-        # Connect the socket to the server
-        server_address = (server_ip, int(server_port))
-        print('Connecting to {} port {}'.format(*server_address))
-        sock.connect(server_address)
-    except Exception as e:
-        print('Error connecting to server:', e)
-
-# Function to handle the "Save" button
-def save(btn):
-    # Get the server IP and port from the GUI
-    server_ip = app.getEntry('Server IP')
-    server_port = app.getEntry('Server Port')
-    # Save the server IP and port to a settings file
-    with open('settings.txt', 'w') as f:
-        f.write(server_ip + '\n')
-        f.write(server_port + '\n')
-
-# Function to load the server IP and port from the settings file
-def load_settings():
-    try:
-        with open('settings.txt', 'r') as f:
-            server_ip = f.readline().strip()
-            server_port = f.readline().strip()
-            app.setEntry('Server IP', server_ip)
-            app.setEntry('Server Port', server_port)
-    except Exception as e:
-        print('Error loading settings:', e)
-
-# Load the server IP and port from the settings file
-load_settings()
-
-# Create the GUI
-app.addLabel('Server IP:')
-app.addEntry('Server IP')
-app.addLabel('Server Port:')
-app.addEntry('Server Port')
-app.addButtons(['Connect', 'Save'], [connect, save])
+# Run the GUI
 app.go()
 
+# Keep receiving data from the server
 while True:
-    data = sock.recv(1024)
-    message = data.decode()
-    # Display the message in a pop-up
-    app.infoBox("Pop-up Message", message)
-    # Wait for a connection
-    print('Waiting for a connection')
-    connection, client_address = sock.accept()
-    try:
-        print('Connection from', client_address)
+    data = client_socket.recv(1024).decode()
 
-        # Receive the data in small chunks and retransmit it
-        while True:
-            data = connection.recv(16)
-            if data:
-                command = data.decode()
-                # Execute the command here
-                print('Received "{}"'.format(command))
-            else:
-                print('No more data from', client_address)
-                break
-            
-    finally:
-        # Clean up the connection
-        connection.close()
+    # If the received data is a message, display it
+    if data.startswith("message:"):
+        message = data[8:]
+        app.setLabel("Messages", message)
+
+    # If the received data is a file

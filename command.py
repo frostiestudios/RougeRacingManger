@@ -9,7 +9,7 @@ app = gui()
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Bind the socket to the port
-server_address = ('192.168.0.171', 10000)
+server_address = ('192.168.0.79', 10000)
 print('Starting up on {} port {}'.format(*server_address))
 sock.bind(server_address)
 
