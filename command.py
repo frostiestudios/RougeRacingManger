@@ -73,6 +73,11 @@ app.addLabel("l3", "Volume Control")
 app.addButtons(["Mute", "Lower", "Raise"], press)
 app.stopTab()
 
+app.startTab("Remote Commands")
+app.addLabelTickOptionBox("clients_list",[("clients_list")])
+app.stopTab()
+
+
 app.startTab("Clients")
 app.addListBox("clients_list")
 with open("clients.cfg") as clients_file:
