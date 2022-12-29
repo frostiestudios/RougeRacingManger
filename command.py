@@ -3,8 +3,6 @@ import pyautogui
 import subprocess
 import os
 
-
-
 def press(button):
     if button == "OpenWeb":
         app.open_web("http://www.google.com")
@@ -58,7 +56,7 @@ def settings(btn):
         pyautogui.sleep(1)
         pyautogui.hotkey('win')
 
-
+#GUI SETTINGS
 app = gui("Command",useSettings=True)
 app.startTabbedFrame("MainMenu") 
 
@@ -109,9 +107,12 @@ app.addButtons(["Clear","ADD"],client)
 app.stopTab()
 
 app.startTab("settings")
-app.startFrame("Client Settings")
-app.addButtons(["View Clients File"], settings)
-app.stopFrame()
+app.startLabelFrame("Client Settings")
+app.addButtons(["View Clients File","Change Where Clients Are Stored"], settings)
+app.stopLabelFrame()
+app.startLabelFrame("About")
+app.start
+app.stopLabelFrame()
 app.stopTab()
 
 app.go()
