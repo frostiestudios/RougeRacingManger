@@ -1,10 +1,8 @@
 from appJar import gui
-import webbrowser
-import time
 import pyautogui
 import subprocess
 import os
-import io
+
 
 
 def press(button):
@@ -26,7 +24,7 @@ def press(button):
         subprocess.run(["amixer", "-D", "pulse", "sset", "Master", "toggle"])
     elif button == "Lower":
         subprocess.run(["amixer", "-D", "pulse", "sset", "Master", "5%-"])
-    elif button == "Raise":
+    elif button == plus:
         subprocess.run(["amixer", "-D", "pulse", "sset", "Master", "5%+"])
 def power(btn):
     if btn == "Restart":
@@ -35,7 +33,10 @@ def power(btn):
         os.system("shutdown /s /t 1")
     if btn == "Sleep":
         subprocess.run(["rundll32.exe", "powrprof.dll,SetSuspendState"])
-        
+
+
+plus=u"\u2795"
+minu=u"\u002D"
 def client(btn):
     if btn == "ADD":
         cnm = app.getEntry("Client Name")
@@ -58,23 +59,36 @@ def settings(btn):
         pyautogui.hotkey('win')
 
 
-app = gui("Command")
+app = gui("Command",useSettings=True)
 app.startTabbedFrame("MainMenu") 
 
 app.startTab("MainMenu")  
 
 
 app.startTab("Local Commands")
-app.addLabel("l1","Standard Controls")
+app.startLabelFrame("Standard Controls")
 app.addButtons(["Run Sigma","Content Manager"], press)
-app.addLabel("l2","Power Controls")
+app.stopLabelFrame()
+
+app.startLabelFrame("Power Controls")
 app.addButtons(["Restart","Shut Down","Sleep"], power)
-app.addLabel("l3", "Volume Control")
-app.addButtons(["Mute", "Lower", "Raise"], press)
+
+app.stopLabelFrame()
+
+app.startLabelFrame( "Volume Control")
+app.addButtons(["Mute",minu,plus], press)
+app.stopLabelFrame()
+
+app.startLabelFrame( "Custom Commands")
+app.addButtons(["C1","C2","C3","C4","C5","C6","C7","C8"], press)
+app.stopLabelFrame()
 app.stopTab()
 
 app.startTab("Remote Commands")
 app.addLabelTickOptionBox("clients_list",[("clients_list")])
+app.startLabelFrame("Commands")
+app.setLabelFont("Black")
+app.stopLabelFrame()
 app.stopTab()
 
 
