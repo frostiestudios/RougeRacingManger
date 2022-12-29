@@ -2,8 +2,6 @@ from appJar import gui
 import pyautogui
 import subprocess
 import os
-import socket
-
 
 
 
@@ -26,7 +24,7 @@ def press(button):
         subprocess.run(["amixer", "-D", "pulse", "sset", "Master", "toggle"])
     elif button == "Lower":
         subprocess.run(["amixer", "-D", "pulse", "sset", "Master", "5%-"])
-    elif button == "Raise":
+    elif button == plus:
         subprocess.run(["amixer", "-D", "pulse", "sset", "Master", "5%+"])
 def power(btn):
     if btn == "Restart":
@@ -35,7 +33,10 @@ def power(btn):
         os.system("shutdown /s /t 1")
     if btn == "Sleep":
         subprocess.run(["rundll32.exe", "powrprof.dll,SetSuspendState"])
-        
+
+
+plus=u"\u2795"
+minu=u"\u002D"
 def client(btn):
     if btn == "ADD":
         cnm = app.getEntry("Client Name")
@@ -58,36 +59,38 @@ def settings(btn):
         pyautogui.hotkey('win')
 
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('localhost', 8000))
-server_socket.listen()
-
-app = gui("Command")
+app = gui("Command",useSettings=True)
 app.startTabbedFrame("MainMenu") 
 
 app.startTab("MainMenu")  
-app.addLabelEntry("Message")
-def send_message(btn):
-    message = app.getEntry("Message")
-    client_socket.send(message.encode())
-app.addButton("Send message", send_message)
 
-def send_file(btn):
-    file_path = app.openBox()
-    with open(file_path, 'rb') as file:
-        client_socket.sendall(file)
-app.addButton("Send file", send_file)
-client_socket, client_address = server_socket.accept()
-app.stopTab()
 
 app.startTab("Local Commands")
-app.addLabel("l1","Standard Controls")
+app.startLabelFrame("Standard Controls")
 app.addButtons(["Run Sigma","Content Manager"], press)
-app.addLabel("l2","Power Controls")
+app.stopLabelFrame()
+
+app.startLabelFrame("Power Controls")
 app.addButtons(["Restart","Shut Down","Sleep"], power)
-app.addLabel("l3", "Volume Control")
-app.addButtons(["Mute", "Lower", "Raise"], press)
+
+app.stopLabelFrame()
+
+app.startLabelFrame( "Volume Control")
+app.addButtons(["Mute",minu,plus], press)
+app.stopLabelFrame()
+
+app.startLabelFrame( "Custom Commands")
+app.addButtons(["C1","C2","C3","C4","C5","C6","C7","C8"], press)
+app.stopLabelFrame()
 app.stopTab()
+
+app.startTab("Remote Commands")
+app.addLabelTickOptionBox("clients_list",[("clients_list")])
+app.startLabelFrame("Commands")
+app.setLabelFont("Black")
+app.stopLabelFrame()
+app.stopTab()
+
 
 app.startTab("Clients")
 app.addListBox("clients_list")
