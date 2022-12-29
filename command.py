@@ -1,10 +1,10 @@
 from appJar import gui
-import webbrowser
-import time
 import pyautogui
 import subprocess
 import os
-import io
+import socket
+
+
 
 
 def press(button):
@@ -58,11 +58,27 @@ def settings(btn):
         pyautogui.hotkey('win')
 
 
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind(('localhost', 8000))
+server_socket.listen()
+
 app = gui("Command")
 app.startTabbedFrame("MainMenu") 
 
 app.startTab("MainMenu")  
+app.addLabelEntry("Message")
+def send_message(btn):
+    message = app.getEntry("Message")
+    client_socket.send(message.encode())
+app.addButton("Send message", send_message)
 
+def send_file(btn):
+    file_path = app.openBox()
+    with open(file_path, 'rb') as file:
+        client_socket.sendall(file)
+app.addButton("Send file", send_file)
+client_socket, client_address = server_socket.accept()
+app.stopTab()
 
 app.startTab("Local Commands")
 app.addLabel("l1","Standard Controls")
