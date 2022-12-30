@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(
-    ['f-', 'w-', 'command.py'],
+    ['f-', 'p-', 'command.py'],
     pathex=[],
     binaries=[],
     datas=[],

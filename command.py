@@ -12,7 +12,7 @@ def press(button):
     if button == "OpenWeb":
         webbrowser.open("http://www.google.com")
     if button == "Send Link":
-        link="https://www.youtube.com/watch?v=In_PMIeHOco"
+        link="ho"
         send_message(link)
     if button == "Run Sigma":
         pyautogui.hotkey('win')
@@ -41,11 +41,13 @@ def power(btn):
     if btn == "Sleep":
         subprocess.run(["rundll32.exe", "powrprof.dll,SetSuspendState"])
 
-def send_message(*message):
+def send_message(btn):
+    # Get the message from the app
+    message = app.getEntry("Message")
+    # Send the message
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(("192.168.0.79", 12345))
-
-    # Close the socket
+    s.sendall(message.encode())
     s.close()
 
 plus=u"\u2795"
@@ -73,10 +75,13 @@ def settings(btn):
 
 #GUI SETTINGS
 app = gui("Command",useSettings=True)
+app.setIcon("fav.ico")
 app.startTabbedFrame("MainMenu") 
 
 app.startTab("MainMenu")  
-
+app.addLabelEntry("Message")
+app.addButton("Send", send_message)
+app.stopTab()
 
 app.startTab("Local Commands")
 app.startLabelFrame("Standard Controls")
