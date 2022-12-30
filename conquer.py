@@ -1,24 +1,25 @@
 import socket
-from appJar import gui
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('192.168.0.79',10000))
-server_socket.listen()
-client_socket, client_address = server_socket.accept()
+def receive_message():
+    # Create a socket and listen for incoming connections
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("0.0.0.0", 12345))
+    s.listen(1)
 
-# Create a GUI app using appjar
-app = gui()
+    # Accept a connection
+    conn, addr = s.accept()
+    print(f"Connection from {addr}")
 
-# Add a label to display messages from the server
-app.addLabel("Messages")
-def send_message(btn):
-    message = app.getEntry("Message")
-    client_socket.send(message.encode())
+    # Receive and decode the message
+    data = conn.recv(1024).decode()
+    print(f"Received: {data}")
 
-app.addButton("Send message", send_message)
-# Run the GUI
-app.go()
+    # Open the link
+    import webbrowser
+    webbrowser.open(data)
 
-# Keep receiving data from the server
+    # Close the socket
+    conn.close()
 
-    # If the received data is a file
+while True:
+    receive_message()
