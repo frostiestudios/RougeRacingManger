@@ -15,12 +15,9 @@ def receive_message():
     data = conn.recv(1024).decode()
     print(f"Received: {data}")
 
+    # Open a message window with the received message
     app = gui("Message")
-    app.infoBox("Link Received", data)
-    
-    # Open the link
-    import webbrowser
-    webbrowser.open(data)
+    app.infoBox("Message Received", data)
 
     # Close the socket
     conn.close()
