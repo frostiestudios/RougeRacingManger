@@ -49,7 +49,6 @@ def send_message(btn):
     s.connect(("192.168.0.79", 12345))
     s.sendall(message.encode())
     s.close()
-
 plus=u"\u2795"
 minu=u"\u002D"
 def client(btn):
@@ -65,9 +64,7 @@ def client(btn):
             outFile.write("\n")
             outFile.write("------ \n")
             outFile.close()
-        print(cnm,cip)
-        
-        
+        print(cnm,cip) 
 def settings(btn):
     if btn == "View Clients File":
         pyautogui.sleep(1)
@@ -78,11 +75,14 @@ app = gui("Command",useSettings=True)
 app.setIcon("fav.ico")
 app.startTabbedFrame("MainMenu") 
 
-app.startTab("MainMenu")  
+#mainmenutab
+app.startTab("MainMenu")
 app.addLabelEntry("Message")
 app.addButton("Send", send_message)
+app.addLabelEntry("Send Address")
 app.stopTab()
 
+#localcommands
 app.startTab("Local Commands")
 app.startLabelFrame("Standard Controls")
 app.addButtons(["Run Sigma","Content Manager","OpenWeb","Send Link"], press)
@@ -90,7 +90,6 @@ app.stopLabelFrame()
 
 app.startLabelFrame("Power Controls")
 app.addButtons(["Restart","Shut Down","Sleep"], power)
-
 app.stopLabelFrame()
 
 app.startLabelFrame( "Volume Control")
@@ -102,9 +101,11 @@ app.addButtons(["C1","C2","C3","C4","C5","C6","C7","C8"], press)
 app.stopLabelFrame()
 app.stopTab()
 
-app.startTab("Remote Commands")
+#messanger
+app.startTab("Messanger")
 app.addLabelTickOptionBox("clients_list",[("clients_list")])
 app.startLabelFrame("Commands")
+app.addFileEntry("File")
 app.setLabelFont("Black")
 app.stopLabelFrame()
 app.stopTab()
@@ -131,7 +132,6 @@ app.startLabelFrame("Client Settings")
 app.addButtons(["View Clients File","Change Where Clients Are Stored"], settings)
 app.stopLabelFrame()
 app.startLabelFrame("About")
-app.start
 app.stopLabelFrame()
 app.stopTab()
 

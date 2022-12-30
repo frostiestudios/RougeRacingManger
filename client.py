@@ -1,8 +1,17 @@
+from appJar import gui
+import pyautogui
+import subprocess
+import os
 import socket
+import webbrowser
 
-# Create a socket object
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#deffinitions
 
-# Connect to the server
-server_ip_address = "192.168.0.79" # Replace this with the actual IP address of the server
-client_socket.connect((server_ip_address, 12345))
+
+
+app=gui("App", useSettings=True)
+app.setIcon("macOS/AppIcon.appiconset/fav-1024.png")
+app.startTab("Messanger")
+app.stopTab()
+app.go()
+
