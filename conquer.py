@@ -1,4 +1,5 @@
 import socket
+from appJar import gui
 
 def receive_message():
     # Create a socket and listen for incoming connections
@@ -14,6 +15,9 @@ def receive_message():
     data = conn.recv(1024).decode()
     print(f"Received: {data}")
 
+    app = gui("Message")
+    app.infoBox("Link Received", data)
+    
     # Open the link
     import webbrowser
     webbrowser.open(data)

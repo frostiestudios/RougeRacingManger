@@ -44,7 +44,6 @@ def power(btn):
 def send_message(*message):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(("192.168.0.79", 12345))
-    s.sendall(message.encode())
 
     # Close the socket
     s.close()
