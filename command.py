@@ -2,6 +2,10 @@ from appJar import gui
 import pyautogui
 import subprocess
 import os
+import socket
+
+
+
 
 def press(button):
     if button == "OpenWeb":
@@ -18,6 +22,7 @@ def press(button):
         pyautogui.typewrite('content manager')
         pyautogui.sleep(2)
         pyautogui.press('enter')
+        pyautogui.hotkey('ctrl',"v")
     if button == "Mute":
         subprocess.run(["amixer", "-D", "pulse", "sset", "Master", "toggle"])
     elif button == "Lower":
