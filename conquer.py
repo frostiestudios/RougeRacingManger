@@ -22,7 +22,6 @@ def receive_message():
     # Open a message window with the received message
     app = gui("Message")
     app.infoBox("Message Received", data)
-    app.playSound("tada.mp3")
     # Close the socket
     conn.close()
 

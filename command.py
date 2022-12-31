@@ -40,7 +40,14 @@ def power(btn):
         os.system("shutdown /s /t 1")
     if btn == "Sleep":
         subprocess.run(["rundll32.exe", "powrprof.dll,SetSuspendState"])
-
+def local(btn):
+    if btn == ("Send Local"):
+        data=app.getEntry("MessageLocal")
+        with open("htdocs/messages.html", "a") as f:
+            f.write(f"<section><h3>PCLOCAL</h3>")
+            f.write(f"\n")
+            f.write(f"<p>{data}</p></section>")
+            f.write(f"\n")
 def send_message(btn):
     # Get the message from the app
     message = app.getEntry("Message")
@@ -53,20 +60,7 @@ def send_message(btn):
 
 plus=u"\u2795"
 minu=u"\u002D"
-def client(btn):
-    if btn == "ADD":
-        cnm = app.getEntry("Client Name")
-        cip = app.getEntry("IP")
-        with open ( "clients.cfg","a") as outFile:
-            outFile.write("client name: ")
-            outFile.write(cnm)
-            outFile.write("\n")
-            outFile.write("ip adress  : ")
-            outFile.write(cip)
-            outFile.write("\n")
-            outFile.write("------ \n")
-            outFile.close()
-        print(cnm,cip) 
+
 def settings(btn):
     if btn == "View Clients File":
         pyautogui.sleep(1)
@@ -74,7 +68,6 @@ def settings(btn):
 
 #GUI SETTINGS
 app = gui("Command",useSettings=True)
-app.setDark()
 app.setIcon("fav.ico")
 app.startTabbedFrame("MainMenu") 
 
@@ -96,6 +89,7 @@ app.startLabelFrame("Standard Controls")
 app.addButtons(["Run Sigma","Content Manager","OpenWeb","Send Link"], press)
 app.stopLabelFrame()
 
+
 app.startLabelFrame("Power Controls")
 app.addButtons(["Restart","Shut Down","Sleep"], power)
 app.stopLabelFrame()
@@ -110,30 +104,17 @@ app.stopLabelFrame()
 app.stopTab()
 
 #messanger
-app.startTab("Messanger")
-app.addLabelTickOptionBox("clients_list",[("clients_list")])
-app.startLabelFrame("Commands")
-app.addFileEntry("File")
-app.setLabelFont("Black")
+app.startTab("Leaderboard")
+app.startLabelFrame("Send A Local Message")
+app.addLabelEntry("MessageLocal")
+app.addButton("Send Local", local)
 app.stopLabelFrame()
 app.stopTab()
 
 
 app.startTab("Clients")
-app.addListBox("clients_list")
-with open("clients.cfg") as clients_file:
-    for line in clients_file.readlines():
-        if line.startswith("Client Name:"):
-            client_name = line[12:].strip()
-            app.addListItem("clients_list", client_name)
-app.addButton("Add New", client)
 app.stopTab()
 
-app.startTab("New Client")
-app.addLabelEntry("Client Name")
-app.addLabelEntry("IP")
-app.addButtons(["Clear","ADD"],client)
-app.stopTab()
 
 app.startTab("settings")
 app.startLabelFrame("Client Settings")
