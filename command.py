@@ -74,7 +74,6 @@ def settings(btn):
 
 #GUI SETTINGS
 app = gui("Command",useSettings=True)
-app.setDark()
 app.setIcon("fav.ico")
 app.startTabbedFrame("MainMenu") 
 
