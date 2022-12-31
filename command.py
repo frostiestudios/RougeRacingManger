@@ -44,10 +44,11 @@ def power(btn):
 def send_message(btn):
     # Get the message from the app
     message = app.getEntry("Message")
+    subject = app.getEntry("Subject")
     # Send the message
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(("192.168.0.79", 12345))
-    s.sendall(message.encode())
+    s.sendall(f"{subject}\n{message}".encode())
     s.close()
 plus=u"\u2795"
 minu=u"\u002D"
@@ -77,6 +78,7 @@ app.startTabbedFrame("MainMenu")
 
 #mainmenutab
 app.startTab("MainMenu")
+app.addLabelEntry("Subject")
 app.addLabelEntry("Message")
 app.addButton("Send", send_message)
 app.addLabelEntry("Send Address")
