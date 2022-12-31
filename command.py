@@ -46,7 +46,7 @@ def send_message(btn):
     message = app.getEntry("Message")
     # Send the message
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("192.168.0.79", 12345))
+    s.connect(("192.168.0.121", 12345))
     s.sendall(message.encode())
     s.close()
 plus=u"\u2795"
@@ -72,6 +72,7 @@ def settings(btn):
 
 #GUI SETTINGS
 app = gui("Command",useSettings=True)
+app.setDark()
 app.setIcon("fav.ico")
 app.startTabbedFrame("MainMenu") 
 
