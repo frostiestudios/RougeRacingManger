@@ -10,11 +10,10 @@ def receive_message():
     # Accept a connection
     conn, addr = s.accept()
     print(f"Connection from {addr}")
-
     # Receive and decode the message
     data = conn.recv(1024).decode()
     print(f"Received: {data}")
-    with open("messages.html", "a") as f:
+    with open("htdocs/messages.html", "a") as f:
         f.write(f"<section><h3>{addr}</h3>")
         f.write(f"\n")
         f.write(f"<p>{data}</p></section>")
