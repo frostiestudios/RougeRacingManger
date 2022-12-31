@@ -14,6 +14,7 @@ def receive_message():
     # Receive and decode the message
     data = conn.recv(1024).decode()
     print(f"Received: {data}")
+
     with open("messages.html", "a") as f:
         f.write(f"<section><h3>{addr}</h3>")
         f.write(f"\n")
