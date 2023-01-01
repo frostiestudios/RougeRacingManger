@@ -24,10 +24,11 @@ def receive_message():
     app.infoBox("Message Received", data)
     # Close the socket
     conn.close()
-
+    receive_message()
 # Create a loop to continuously listen for incoming connections
 while True:
     receive_message()
 
-    # Open the HTML file and write the received message to it
+    # Open 
+    # the HTML file and write the received message to it
 
