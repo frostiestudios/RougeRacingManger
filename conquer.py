@@ -1,51 +1,36 @@
 import socket
 from appJar import gui
 
-def receive_message():
-    # Create a socket and listen for incoming connections
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(("0.0.0.0", 12345))
-    s.listen(1)
-
-    # Accept a connection
-    conn, addr = s.accept()
-    print(f"Connection from {addr}")
-    # Receive and decode the message
-    data = conn.recv(1024).decode()
-    print(f"Received: {data}")
-
-    with open("htdocs/messages.html", "a") as f:
-        f.write(f"<section><h3>{addr}</h3>")
-        f.write(f"\n")
-        f.write(f"<p>{data}</p></section>")
-        f.write(f"\n")
-    # Open a message window with the received message
-    app = gui("Message")
-    app.infoBox("Message Received", data)
-    # Close the socket
-    conn.close()
-    receive_message()
-def receive_file():
-    # Create a socket and listen for incoming connections
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(("0.0.0.0", 12345))
-    s.listen(1)
-
-    # Accept a connection
-    conn, addr = s.accept()
-    print(f"Connection from {addr}")
-
-    # Receive and save the file
-    with open("received_file.bin", "wb") as f:
-        f.write(conn.recv(1024))
-
-    # Close the socket
-    conn.close()
-# Create a loop to continuously listen for incoming connections
-while True:
-    receive_message()
-    receive_file()
-
-    # Open 
-    # the HTML file and write the received message to it
-
+IP = socket.gethostbyname(socket.gethostname())
+PORT = 4455
+ADDR = (IP, PORT)
+SIZE = 1024
+FORMAT = "utf-8"
+def main():
+    print("[starting]server is starting")
+    server=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    """ Starting a TCP socket"""
+    server.bind(ADDR)
+    """ Bind the IP and PORT to the server. """
+    server.listen()
+    """ Server is listening, i.e., server is now waiting for the client to connected. """
+    print("[LISTENING] Server Is Listening")
+    while True:
+        conn, addr = server.accept()
+        print(f"[NEW CON]{addr} connected to the server")
+        #filename
+        filename = conn.recv(SIZE).decode(FORMAT)
+        print(f"[RECV] Receiving the filename.")
+        file = open(filename, "w")
+        conn.send("Filename received.".encode(FORMAT))
+        #filedata
+        data = conn.recv(SIZE).decode(FORMAT)
+        print(f"[RECV] Receiving the file data.")
+        file.write(data)
+        conn.send("File data received".encode(FORMAT))
+        #closefile
+        file.close()
+        conn.close()
+        print(f"[DISCONNECTED]{addr}DISCONNECTED")
+if __name__ == "__main__":
+    main()
