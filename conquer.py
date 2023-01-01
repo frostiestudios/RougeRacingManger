@@ -39,14 +39,13 @@ def receive_file():
     # Receive and save the file
     with open("received_file.bin", "wb") as f:
         f.write(conn.recv(1024))
-3
+
     # Close the socket
     conn.close()
 # Create a loop to continuously listen for incoming connections
 while True:
     receive_message()
     receive_file()
-
     # Open 
     # the HTML file and write the received message to it
 
