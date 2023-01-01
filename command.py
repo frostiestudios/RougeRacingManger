@@ -57,6 +57,14 @@ def send_message(btn):
 
     s.connect(("192.168.0.121", 12345))
     s.sendall(message.encode())
+def send_file(btn):
+    file_path = app.getEntry("File")
+    # Open the file and send it
+    with open(file_path, "rb") as f:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(("192.168.0.121", 12345))
+        s.sendfile(f)
+        s.close()
 
 plus=u"\u2795"
 minu=u"\u002D"
@@ -79,6 +87,8 @@ app.setSticky("ew")
 app.addLabelEntry("Subject")
 app.addLabelEntry("Message")
 app.addButtons(["clear","Send"], send_message)
+app.addButton("Send File", send_file)
+app.addFileEntry("File")
 app.stopLabelFrame()
 app.addLabelEntry("Send Address")
 app.stopTab()
